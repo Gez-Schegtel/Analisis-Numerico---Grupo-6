@@ -27,18 +27,20 @@
 """
 
 # %%
-# -*- coding: utf-8 -*-
 # Importación de librerías.
 import cmath
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import sympy as sp  # Añadido para la Actividad 10
+import sympy as sp
 
 # Configuración para que los gráficos de Matplotlib se vean mejor
 plt.style.use("seaborn-v0_8-whitegrid")
 
 
+# La siguiente función se definió para permitir la entrada de datos del usuario.
+# Se conserva por si se quiere cambiar el comportamiento del notebook a uno interactivo en el futuro,
+# pero no se utilizará en la versión actual para garantizar la reproducibilidad del documento.
 def entrada_complejo() -> complex:
     # ~~~ Esta función devuelve un número complejo a partir del input del usuario. ~~~ #
     while True:
@@ -55,6 +57,15 @@ def entrada_complejo() -> complex:
             )
     return numero_complejo
 
+def complejo_forma_binomica(z: complex) -> str:
+    parte_real = z.real
+    parte_imaginaria = z.imag
+
+    if parte_imaginaria >= 0:
+        return f"{parte_real:.2f} + {parte_imaginaria:.2f}i"
+    else:
+        return f"{parte_real:.2f} - {abs(parte_imaginaria):.2f}i"
+
 
 # %% [markdown]
 """
@@ -68,7 +79,8 @@ Escribir un programa que, dado un número complejo z = a + bi, muestre:
 """
 
 # %%
-z = entrada_complejo()
+# Se define un valor fijo para el número complejo en lugar de pedirlo al usuario.
+z = 3 + 4j
 
 ## Extraemos la parte real del número complejo:
 parte_real = z.real
@@ -103,8 +115,9 @@ Mostrar los resultados en consola con formato a + bi.
 """
 
 # %%
-z1 = entrada_complejo()
-z2 = entrada_complejo()
+# Se definen valores fijos para los números complejos.
+z1 = 5 - 2j
+z2 = -3 + 4j
 
 print(f"{z1} + {z2} = {z1 + z2}")
 print(f"{z1} - {z2} = {z1 - z2}")
@@ -121,7 +134,8 @@ Construir una función que calcule 𝑖^𝑛 para un valor entero n ingresado po
 
 # %%
 i = 1j
-n = int(input("Ingrese la potencia a la que quiere elevar el número imaginario i."))
+# Se define un valor fijo para la potencia n.
+n = 3
 
 potencia_i = i**n
 if potencia_i.real != 0:
@@ -141,7 +155,8 @@ Dado un número complejo z, calcular:
 """
 
 # %%
-z = entrada_complejo()
+# Se define un valor fijo para el número complejo.
+z = -4 - 3j
 modulo_z = abs(z)
 conjugado_z = z.conjugate()
 
@@ -162,8 +177,9 @@ $$ \frac{z}{w} = zw^{-1} = z \frac{\bar{w}}{|w|^2} $$
 """
 
 # %%
-z = entrada_complejo()
-w = entrada_complejo()
+# Se definen valores fijos para los números complejos.
+z = 10 + 5j
+w = 1 + 2j
 
 conjugado_w = w.conjugate()
 
@@ -189,7 +205,8 @@ $$ z = r(\cos \theta + i \sin \theta) $$
 
 # %%
 ## Opción 1: Calculamos el módulo y el argumento del número complejo con una sola función, al mismo tiempo.
-z = entrada_complejo()
+# Se define un valor fijo para el número complejo.
+z = -1 + 1j
 
 # Esta función de math nos devuelve una tupla con el módulo y el argumento. Equivalente a (abs(z), phase(z))
 mod, ang_rad = cmath.polar(z)
@@ -197,18 +214,19 @@ mod, ang_rad = cmath.polar(z)
 ang_deg = np.degrees(ang_rad)
 
 print(
-    f"El número complejo en su forma trigonométrica es: {mod} * (cos({ang_deg:.4f}.) + i * sen({ang_deg:.4f}))"
+    f"El número complejo en su forma trigonométrica es: {mod:.4f} * (cos({ang_deg:.4f}.) + i * sen({ang_deg:.4f}))"
 )
 
 ## Opción 2: Calculamos el módulo y el argumento por separado.
-z = entrada_complejo()
+# Se usa el mismo valor fijo para demostrar que el resultado es idéntico.
+z = -1 + 1j
 
 mod = abs(z)
 ang_rad = cmath.phase(z)  # Al argumento se lo conoce también como fase.
 ang_deg = np.degrees(ang_rad)
 
 print(
-    f"El número complejo en su forma trigonométrica es: {mod} * (cos({ang_deg:.4f}) + i * sen({ang_deg:.4f}))"
+    f"El número complejo en su forma trigonométrica es: {mod:.4f} * (cos({ang_deg:.4f}) + i * sen({ang_deg:.4f}))"
 )
 
 # %% [markdown]
@@ -485,10 +503,17 @@ graficar_complejos(d_graficar, titulo="d) Operación Combinada")
 **Potencia en forma polar**
 
 Implementar el teorema de De Moivre para calcular 𝑧^𝑛 usando la forma polar del número complejo.
+
+**Recordá que el teorema de Moivre enuncia lo siguiente:**
+
+$$ z^n = [r(\cos \theta + i \sin \theta)]^n = r^n(\cos(n\theta) + i \sin(n\theta)) $$
+$$ z^n = \underbrace{r^n \cos(n\theta)}_{\text{Parte Real (a)}} + i \underbrace{(r^n \sin(n\theta))}_{\text{Parte Imaginaria (b)}} $$
+... donde $r = |z|$ es el módulo de $z$.
 """
 
 
 # %%
+## Opción 1: Utlizando la librería math.
 def mostrar_binomico(a, b):
     """Devuelve un complejo en formato a + bi"""
     if b >= 0:
@@ -498,15 +523,13 @@ def mostrar_binomico(a, b):
 
 
 # Programa principal
-z = entrada_complejo()
-n = int(input("Ingrese el exponente n: "))
-
-parte_real = z.real
-parte_imaginaria = z.imag
+# Se definen valores fijos para z y n.
+z = 1 + 1j
+n = 5
 
 # Paso 1: convertir a forma polar
 r = abs(z)  # módulo
-theta = math.atan2(parte_imaginaria, parte_real)  # argumento en radianes
+theta = math.atan2(z.imag, z.real)  # argumento en radianes
 
 # Paso 2: aplicar De Moivre
 r_n = r**n
@@ -518,8 +541,35 @@ resultado_imag = r_n * math.sin(theta_n)
 
 # Mostrar resultados
 print(f"\nNúmero en forma polar: r = {r:.3f}, θ = {theta:.3f} rad")
-print(f"Aplicando De Moivre: z^{n} = {r}^{n} (cos({n}θ) + i·sin({n}θ))")
+print(f"Aplicando De Moivre: z^{n} = {r:.2f}^{n} (cos({n}*θ) + i·sin({n}*θ))")
 print(f"Resultado en binómica: {mostrar_binomico(resultado_real, resultado_imag)}")
+
+# %%
+## Opción 2: Utilizamos únicamente las funciones de cmath.
+# Se usan los mismos valores fijos para z y n para consistencia.
+z = 1 + 1j
+n = 5
+
+# Paso 1: Convertir el número a forma polar.
+r, theta = cmath.polar(z)
+
+# Paso 2: Aplicamos el teorema de Moivre.
+r_n = r**n
+theta_n = theta * n
+
+moivre = cmath.rect(r_n, theta_n) # Esta función toma el módulo de z y el valor de theta, y devuelve el número complejo en forma binómica.
+
+"""
+Usar la función rect es lo mismo que hacer lo siguiente: 
+
+parte_real = r_n * math.cos(theta_n)
+parte_imaginaria = r_n * math.sin(theta_n)
+resultado = complex(parte_real, parte_imaginaria)
+"""
+
+print(f"Teorema de Moivre: z^{n} = {r:.2f} ^ {n}(cos({n}*{theta:.2f}) + i*sin({n}*{theta:.2f}))")
+print(f"Comprobación: {z**n} = {complejo_forma_binomica(moivre)}")
+
 
 # %% [markdown]
 """
@@ -531,41 +581,31 @@ Dado un número complejo z y un entero n, calcular las n raíces de z y graficar
 
 
 # %%
-def mostrar_binomico(a, b):
-    """Devuelve un complejo en formato a + bi"""
-    if b >= 0:
-        return f"{a:.3f} + {b:.3f}i"
-    else:
-        return f"{a:.3f} - {abs(b):.3f}i"
-
-
-# Programa principal
-z = entrada_complejo()
-n = int(input("Ingrese el valor de n (n-esima raíz): "))
+# Se definen valores fijos para z y n.
+z = 8j
+n = 3
 
 # Paso 1: convertir a forma polar
-r = abs(z)  # módulo
-theta = math.atan2(z.imag, z.real)  # argumento en radianes
+r, theta = cmath.polar(z)
 
 # Paso 2: calcular raíces
-raices = []
+raices = list()
 for k in range(n):
     r_n = r ** (1 / n)
     angle = (theta + 2 * math.pi * k) / n
-    real = r_n * math.cos(angle)
-    imag = r_n * math.sin(angle)
-    raiz = complex(real, imag)
+    raiz = cmath.rect(r_n, angle)
     raices.append(raiz)
-    print(f"Raíz {k + 1}: {mostrar_binomico(real, imag)}")
+    print(f"Raíz {k + 1}: {complejo_forma_binomica(raiz)}")
 
 # Paso 3: graficar en el plano complejo
+plt.figure(figsize=(8, 8)) # Crear una figura de tamaño adecuado
 plt.axhline(0, color="black", linewidth=0.5)
 plt.axvline(0, color="black", linewidth=0.5)
 plt.grid(True, linestyle="--", alpha=0.5)
 
 for raiz in raices:
     plt.plot(
-        raiz.real, raiz.imag, "o", label=f"{mostrar_binomico(raiz.real, raiz.imag)}"
+        raiz.real, raiz.imag, "o", markersize=8, label=f"{complejo_forma_binomica(raiz)}"
     )
 
 plt.title(f"Raíces {n}-ésimas de {z}")
@@ -584,7 +624,10 @@ Resolver los sistemas de ecuaciones del punto 16 y realizar la comprobación en 
 """
 
 # %%
-# Definimos variables simbólicas (pueden ser complejas)
+# ~~~ Definición de las variables simbólicas ~~~
+# Esta línea le dice a SymPy que trate 'z', 'w', 'x', e 'y' no como
+# variables de Python que guardan un valor, sino como símbolos matemáticos
+# abstractos. Son las incógnitas de nuestros sistemas de ecuaciones.
 z, w, x, y = sp.symbols("z w x y")
 
 # ==============================
@@ -592,11 +635,34 @@ z, w, x, y = sp.symbols("z w x y")
 # z + w = 2 - 3i
 # z - w = -3 + i
 # ==============================
+
+# ~~~ Creación de la lista de ecuaciones para el sistema a) ~~~
+# eqs_a es una lista de Python que contendrá las dos ecuaciones del sistema.
+# sp.solve() necesita esta lista para saber qué resolver.
 eqs_a = [
-    sp.Eq(z + w, 2 - 3 * sp.I),  # Primera ecuación
-    sp.Eq(z - w, -3 + sp.I),  # Segunda ecuación
+    # ~~~ Definición de la primera ecuación ~~~
+    # sp.Eq() crea un objeto de igualdad simbólica. Representa matemáticamente
+    # la ecuación "lado_izquierdo = lado_derecho".
+    # El primer argumento (z + w) es el lado izquierdo.
+    # El segundo argumento (2 - 3 * sp.I) es el lado derecho.
+    # Nota el uso de sp.I para la unidad imaginaria.
+    sp.Eq(z + w, 2 - 3 * sp.I),
+
+    # ~~~ Definición de la segunda ecuación ~~~
+    # Se crea el objeto para la segunda ecuación del sistema, z - w = -3 + i.
+    sp.Eq(z - w, -3 + sp.I),
 ]
-sol_a = sp.solve(eqs_a, (z, w))  # Resolvemos el sistema para (z, w)
+
+# ~~~ Resolución del sistema a) ~~~
+# sp.solve() es la función principal que resuelve sistemas de ecuaciones.
+# - El primer argumento, `eqs_a`, es la lista de ecuaciones que debe satisfacer.
+# - El segundo argumento, `(z, w)`, es una tupla con los símbolos que queremos despejar.
+# SymPy aplicará métodos algebraicos (como sustitución o eliminación) para encontrar los valores.
+sol_a = sp.solve(eqs_a, (z, w))
+
+# ~~~ Impresión de la solución ~~~
+# sp.solve devuelve un diccionario donde las claves son los símbolos (z, w)
+# y los valores son sus soluciones.
 print("a) Solución:", sol_a)
 
 
@@ -605,11 +671,23 @@ print("a) Solución:", sol_a)
 # z + 3w = 1 + 2i
 # i*z + w = 2 - i
 # ==============================
+
+# ~~~ Creación de la lista de ecuaciones para el sistema b) ~~~
+# De nuevo, una lista para almacenar las ecuaciones del segundo sistema.
 eqs_b = [
-    sp.Eq(z + 3 * w, 1 + 2 * sp.I),  # Primera ecuación
-    sp.Eq(sp.I * z + w, 2 - sp.I),  # Segunda ecuación
+    # ~~~ Primera ecuación del sistema b) ~~~
+    # Se define la ecuación z + 3w = 1 + 2i.
+    sp.Eq(z + 3 * w, 1 + 2 * sp.I),
+
+    # ~~~ Segunda ecuación del sistema b) ~~~
+    # Se define la ecuación i*z + w = 2 - i.
+    # SymPy entiende perfectamente la multiplicación de la unidad imaginaria (sp.I) por un símbolo (z).
+    sp.Eq(sp.I * z + w, 2 - sp.I),
 ]
-sol_b = sp.solve(eqs_b, (z, w))  # Resolvemos para (z, w)
+
+# ~~~ Resolución del sistema b) ~~~
+# Se resuelve el sistema de ecuaciones `eqs_b` para las incógnitas `z` y `w`.
+sol_b = sp.solve(eqs_b, (z, w))
 print("b) Solución:", sol_b)
 
 
@@ -618,11 +696,22 @@ print("b) Solución:", sol_b)
 # (2+i)x + 2y = 1 + 7i
 # (1-i)x + i*y = 0
 # ==============================
+
+# ~~~ Creación de la lista de ecuaciones para el sistema c) ~~~
 eqs_c = [
-    sp.Eq((2 + sp.I) * x + 2 * y, 1 + 7 * sp.I),  # Primera ecuación
-    sp.Eq((1 - sp.I) * x + sp.I * y, 0),  # Segunda ecuación
+    # ~~~ Primera ecuación del sistema c) ~~~
+    # Aquí se muestra cómo usar coeficientes complejos para las variables.
+    # (2 + sp.I) actúa como el coeficiente que multiplica al símbolo x.
+    sp.Eq((2 + sp.I) * x + 2 * y, 1 + 7 * sp.I),
+
+    # ~~~ Segunda ecuación del sistema c) ~~~
+    # Se define la segunda ecuación con sus respectivos coeficientes complejos.
+    sp.Eq((1 - sp.I) * x + sp.I * y, 0),
 ]
-sol_c = sp.solve(eqs_c, (x, y))  # Resolvemos para (x, y)
+
+# ~~~ Resolución del sistema c) ~~~
+# Se resuelve el sistema para las incógnitas `x` e `y`.
+sol_c = sp.solve(eqs_c, (x, y))
 print("c) Solución:", sol_c)
 
 
@@ -631,9 +720,19 @@ print("c) Solución:", sol_c)
 # (1+i)x - i*y = 2 + i
 # (2+i)x + (2-i)y = 2i
 # ==============================
+
+# ~~~ Creación de la lista de ecuaciones para el sistema d) ~~~
 eqs_d = [
-    sp.Eq((1 + sp.I) * x - sp.I * y, 2 + sp.I),  # Primera ecuación
-    sp.Eq((2 + sp.I) * x + (2 - sp.I) * y, 2 * sp.I),  # Segunda ecuación
+    # ~~~ Primera ecuación del sistema d) ~~~
+    # Se define la ecuación (1+i)x - i*y = 2 + i.
+    sp.Eq((1 + sp.I) * x - sp.I * y, 2 + sp.I),
+
+    # ~~~ Segunda ecuación del sistema d) ~~~
+    # Se define la ecuación (2+i)x + (2-i)y = 2i.
+    sp.Eq((2 + sp.I) * x + (2 - sp.I) * y, 2 * sp.I),
 ]
-sol_d = sp.solve(eqs_d, (x, y))  # Resolvemos para (x, y)
+
+# ~~~ Resolución del sistema d) ~~~
+# Se resuelve el último sistema para las incógnitas `x` e `y`.
+sol_d = sp.solve(eqs_d, (x, y))
 print("d) Solución:", sol_d)
