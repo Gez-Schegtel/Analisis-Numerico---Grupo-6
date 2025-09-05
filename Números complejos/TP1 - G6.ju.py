@@ -18,10 +18,7 @@
     b. Datos completos del grupo (nombres y apellidos de los integrantes).
     c. Enlace al cuaderno compartido (asegurarse de que el acceso esté habilitado).
 4. Subí el documento complementario en la tarea "Práctica N.º 1: Números complejos" disponible en el aula virtual.
-"""
 
-# %% [markdown]
-"""
 ### Consideraciones iniciales:
 
 * Los números complejos en Python se representan con una `j` para la parte imaginaria.
@@ -30,16 +27,18 @@
 """
 
 # %%
+# -*- coding: utf-8 -*-
 # Importación de librerías.
 import cmath
+import math
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp  # Añadido para la Actividad 10
 
 # Configuración para que los gráficos de Matplotlib se vean mejor
 plt.style.use("seaborn-v0_8-whitegrid")
 
 
-# %%
 def entrada_complejo() -> complex:
     # ~~~ Esta función devuelve un número complejo a partir del input del usuario. ~~~ #
     while True:
@@ -170,9 +169,8 @@ conjugado_w = w.conjugate()
 
 division_formula = z * conjugado_w / abs(w) ** 2
 
-print(f""""División con la fórmula "tradicional": {division_formula}""")
-print(f"""División utilizando el operador "/": {z / w}""")
-
+print(f""""División con la fórmula "tradicional": {division_formula:.2f}""")
+print(f"""División utilizando el operador "/": {(z / w):.2f}""")
 
 # %% [markdown]
 """
@@ -202,7 +200,6 @@ print(
     f"El número complejo en su forma trigonométrica es: {mod} * (cos({ang_deg:.4f}.) + i * sen({ang_deg:.4f}))"
 )
 
-# %%
 ## Opción 2: Calculamos el módulo y el argumento por separado.
 z = entrada_complejo()
 
@@ -429,7 +426,6 @@ graficar_complejos(c_graficar, titulo="c) Resta de Conjugados")
 
 # %% [markdown]
 """
-
 **d) $|2\bar{z}_1 - 3\bar{z}_2 - 2|$**
 
 **Resolución Analítica (Manual y con Python):**
@@ -448,7 +444,6 @@ graficar_complejos(c_graficar, titulo="c) Resta de Conjugados")
     $|9 + 12i| = \sqrt{9^2 + 12^2} = \sqrt{81 + 144} = \sqrt{225} = 15$
 
 Ahora, con Python:
-
 """
 
 # %%
@@ -484,14 +479,47 @@ d_graficar = {"2*z1_conj": v1, "-3*z2_conj - 2": v2, "Resultado": resultado_d}
 
 graficar_complejos(d_graficar, titulo="d) Operación Combinada")
 
-
 # %% [markdown]
 """
 ### Actividad 8
 **Potencia en forma polar**
 
-Implementar el teorema de De Moivre para calcular 𝑧 𝑛 usando la forma polar del número complejo.
+Implementar el teorema de De Moivre para calcular 𝑧^𝑛 usando la forma polar del número complejo.
 """
+
+
+# %%
+def mostrar_binomico(a, b):
+    """Devuelve un complejo en formato a + bi"""
+    if b >= 0:
+        return f"{a:.3f} + {b:.3f}i"
+    else:
+        return f"{a:.3f} - {abs(b):.3f}i"
+
+
+# Programa principal
+z = entrada_complejo()
+n = int(input("Ingrese el exponente n: "))
+
+parte_real = z.real
+parte_imaginaria = z.imag
+
+# Paso 1: convertir a forma polar
+r = abs(z)  # módulo
+theta = math.atan2(parte_imaginaria, parte_real)  # argumento en radianes
+
+# Paso 2: aplicar De Moivre
+r_n = r**n
+theta_n = n * theta
+
+# Paso 3: volver a forma binómica
+resultado_real = r_n * math.cos(theta_n)
+resultado_imag = r_n * math.sin(theta_n)
+
+# Mostrar resultados
+print(f"\nNúmero en forma polar: r = {r:.3f}, θ = {theta:.3f} rad")
+print(f"Aplicando De Moivre: z^{n} = {r}^{n} (cos({n}θ) + i·sin({n}θ))")
+print(f"Resultado en binómica: {mostrar_binomico(resultado_real, resultado_imag)}")
 
 # %% [markdown]
 """
@@ -501,6 +529,52 @@ Implementar el teorema de De Moivre para calcular 𝑧 𝑛 usando la forma pola
 Dado un número complejo z y un entero n, calcular las n raíces de z y graficarlas en el plano complejo.
 """
 
+
+# %%
+def mostrar_binomico(a, b):
+    """Devuelve un complejo en formato a + bi"""
+    if b >= 0:
+        return f"{a:.3f} + {b:.3f}i"
+    else:
+        return f"{a:.3f} - {abs(b):.3f}i"
+
+
+# Programa principal
+z = entrada_complejo()
+n = int(input("Ingrese el valor de n (n-esima raíz): "))
+
+# Paso 1: convertir a forma polar
+r = abs(z)  # módulo
+theta = math.atan2(z.imag, z.real)  # argumento en radianes
+
+# Paso 2: calcular raíces
+raices = []
+for k in range(n):
+    r_n = r ** (1 / n)
+    angle = (theta + 2 * math.pi * k) / n
+    real = r_n * math.cos(angle)
+    imag = r_n * math.sin(angle)
+    raiz = complex(real, imag)
+    raices.append(raiz)
+    print(f"Raíz {k + 1}: {mostrar_binomico(real, imag)}")
+
+# Paso 3: graficar en el plano complejo
+plt.axhline(0, color="black", linewidth=0.5)
+plt.axvline(0, color="black", linewidth=0.5)
+plt.grid(True, linestyle="--", alpha=0.5)
+
+for raiz in raices:
+    plt.plot(
+        raiz.real, raiz.imag, "o", label=f"{mostrar_binomico(raiz.real, raiz.imag)}"
+    )
+
+plt.title(f"Raíces {n}-ésimas de {z}")
+plt.xlabel("Parte Real")
+plt.ylabel("Parte Imaginaria")
+plt.legend()
+plt.axis("equal")
+plt.show()
+
 # %% [markdown]
 """
 ### Actividad 10
@@ -508,3 +582,58 @@ Dado un número complejo z y un entero n, calcular las n raíces de z y graficar
 
 Resolver los sistemas de ecuaciones del punto 16 y realizar la comprobación en un cuaderno Jupyter.
 """
+
+# %%
+# Definimos variables simbólicas (pueden ser complejas)
+z, w, x, y = sp.symbols("z w x y")
+
+# ==============================
+# Sistema a)
+# z + w = 2 - 3i
+# z - w = -3 + i
+# ==============================
+eqs_a = [
+    sp.Eq(z + w, 2 - 3 * sp.I),  # Primera ecuación
+    sp.Eq(z - w, -3 + sp.I),  # Segunda ecuación
+]
+sol_a = sp.solve(eqs_a, (z, w))  # Resolvemos el sistema para (z, w)
+print("a) Solución:", sol_a)
+
+
+# ==============================
+# Sistema b)
+# z + 3w = 1 + 2i
+# i*z + w = 2 - i
+# ==============================
+eqs_b = [
+    sp.Eq(z + 3 * w, 1 + 2 * sp.I),  # Primera ecuación
+    sp.Eq(sp.I * z + w, 2 - sp.I),  # Segunda ecuación
+]
+sol_b = sp.solve(eqs_b, (z, w))  # Resolvemos para (z, w)
+print("b) Solución:", sol_b)
+
+
+# ==============================
+# Sistema c)
+# (2+i)x + 2y = 1 + 7i
+# (1-i)x + i*y = 0
+# ==============================
+eqs_c = [
+    sp.Eq((2 + sp.I) * x + 2 * y, 1 + 7 * sp.I),  # Primera ecuación
+    sp.Eq((1 - sp.I) * x + sp.I * y, 0),  # Segunda ecuación
+]
+sol_c = sp.solve(eqs_c, (x, y))  # Resolvemos para (x, y)
+print("c) Solución:", sol_c)
+
+
+# ==============================
+# Sistema d)
+# (1+i)x - i*y = 2 + i
+# (2+i)x + (2-i)y = 2i
+# ==============================
+eqs_d = [
+    sp.Eq((1 + sp.I) * x - sp.I * y, 2 + sp.I),  # Primera ecuación
+    sp.Eq((2 + sp.I) * x + (2 - sp.I) * y, 2 * sp.I),  # Segunda ecuación
+]
+sol_d = sp.solve(eqs_d, (x, y))  # Resolvemos para (x, y)
+print("d) Solución:", sol_d)
