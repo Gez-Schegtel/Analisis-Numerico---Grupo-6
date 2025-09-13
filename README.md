@@ -1,6 +1,10 @@
 
 # Análisis Numérico - Cuaderno de Cursada
 
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Notebook-orange)
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Numerical Analysis](https://img.shields.io/badge/Field-Numerical%20Analysis-green)
+
 ## 📖 Descripción del Repositorio
 
 Este repositorio contiene las libretas de Jupyter (`.ipynb`) desarrolladas para la asignatura **Análisis Numérico** de la carrera de Ingeniería en Sistemas de la Información en la Universidad Tecnológica Nacional, FRRe. El objetivo principal es documentar y compartir la resolución de los trabajos prácticos, ejercicios y proyectos realizados durante la cursada.
@@ -91,4 +95,4 @@ Este proyecto es el resultado del trabajo colaborativo de cinco estudiantes:
 
 ---
 
-**[Nombre de la Universidad] | [Nombre de la Facultad] | [Año]**
+**[Universidad Tecnológica Nacional] | [Facultad Regional Resistencia] | [2025]**

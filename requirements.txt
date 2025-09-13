@@ -1,0 +1,14 @@
+# Archivo de dependencias de Python para el repositorio de Análisis Numérico
+
+# Librerías fundamentales para el cálculo científico y numérico
+numpy
+scipy
+
+# Librería para el cálculo simbólico (resolución analítica)
+sympy
+
+# Librería para la visualización y graficación de datos
+matplotlib
+
+# Librería para ejecutar los cuadernos de Jupyter
+notebook
