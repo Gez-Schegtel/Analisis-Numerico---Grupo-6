@@ -70,12 +70,14 @@ Este proyecto es el resultado del trabajo colaborativo de cinco estudiantes:
 
 1.  **Clonar el Repositorio:**
     ```bash
-    git clone https://github.com/tu-usuario/tu-repositorio.git
+    git clone https://github.com/Gez-Schegtel/Analisis-Numerico---Grupo-6.git
     ```
+
 2.  **Navegar al Directorio:**
     ```bash
-    cd tu-repositorio
+    cd Analisis-Numerico---Grupo-6
     ```
+
 3.  **Instalar Dependencias:**
     Se recomienda crear un entorno virtual.
     ```bash
@@ -83,7 +85,6 @@ Este proyecto es el resultado del trabajo colaborativo de cinco estudiantes:
     source venv/bin/activate  # En Windows: venv\Scripts\activate
     pip install -r requirements.txt
     ```
-    *(Nota: Deberás crear un archivo `requirements.txt` con las librerías necesarias).*
 
 4.  **Ejecutar Jupyter:**
     ```bash
