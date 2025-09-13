@@ -88,7 +88,10 @@ Este proyecto es el resultado del trabajo colaborativo de cinco estudiantes:
 4.  **Ejecutar Jupyter:**
     ```bash
     jupyter notebook
-    ```    O si prefieres JupyterLab:
+    ```    
+
+	*O si prefieres JupyterLab:*
+
     ```bash
     jupyter lab
     ```
