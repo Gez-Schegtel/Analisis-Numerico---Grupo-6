@@ -12,7 +12,7 @@ Integrantes:
 
 ## 1) Cálculo de la Transformada de Laplace
 
-Resolver los siguientes ejercicios de la [guía]()
+Resolver los siguientes ejercicios de la [guía](https://github.com/Gez-Schegtel/Analisis-Numerico---Grupo-6/blob/main/Transformada%20de%20Laplace/Practico1_TransformadaDeLaplace_2025.pdf)
 
 * Ej. 1: 6
 * Ej. 2: 5
