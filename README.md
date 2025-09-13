@@ -98,4 +98,4 @@ Este proyecto es el resultado del trabajo colaborativo de cinco estudiantes:
 
 ---
 
-**[Universidad Tecnológica Nacional] | [Facultad Regional Resistencia] | [2025]**
+**Universidad Tecnológica Nacional | Facultad Regional Resistencia | 2025**
