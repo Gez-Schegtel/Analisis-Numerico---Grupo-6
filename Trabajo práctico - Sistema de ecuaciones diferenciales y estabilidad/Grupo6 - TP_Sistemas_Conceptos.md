@@ -68,15 +68,16 @@ Los sistemas dinámicos (como un circuito eléctrico, un sistema masa-resorte, o
 
 Matemáticamente, esto casi siempre se representa con Ecuaciones Diferenciales Ordinarias (EDOs). Estas ecuaciones incluyen derivadas (como $\frac{dy}{dt}$) e integrales, y resolverlas puede ser muy complicado.
 
-### 2. La "Traducción" Mágica (Álgebra)
+### 2. La traducción algebraica (del dominio $t$ a $s$)
 Aquí entra Laplace. La transformada toma la ecuación diferencial en el dominio del tiempo ($t$) y la "traduce" a una ecuación algebraica en un nuevo dominio, llamado el dominio de Laplace ($s$).
 
 La magia está en que:
 
 *   La derivación ($\frac{d}{dt}$) se convierte en una multiplicación (por $s$).
     $$
-    \mathcal{L}\{f'(t)\} \approx sF(s)
-    $$
+\mathcal{L}\{f'(t)\} = sF(s) - f(0^+),\qquad
+\mathcal{L}\{f''(t)\} = s^2F(s) - s\,f(0^+) - f'(0^+). 
+$$
 *   La integración ($\int dt$) se convierte en una división (entre $s$).
     $$
     \mathcal{L}\left\{\int_{0}^{t} f(\tau)d\tau\right\} = \frac{F(s)}{s}
@@ -85,6 +86,25 @@ La magia está en que:
 De repente, esa ecuación diferencial complicada se transforma en una ecuación algebraica que podemos resolver despejando la variable.
 
 ### 3. La Solución y el Regreso
+
+#### Fichas clave de la Transformada de Laplace
+
+- **Condiciones de existencia:** si $f$ es continua a trozos y de **orden exponencial**, entonces $\mathcal{L}\{f\}(s)$ existe para $\operatorname{Re}(s) > \sigma_0$.
+- **Derivadas (con condiciones iniciales):**
+  $$
+  \mathcal{L}\{f'(t)\} = sF(s) - f(0^+),\qquad
+  \mathcal{L}\{f''(t)\} = s^2F(s) - s\,f(0^+) - f'(0^+).
+  $$
+- **Integral (antiderivada):** $\displaystyle \mathcal{L}\left\{\int_0^t f(\tau)\,d\tau\right\} = \dfrac{F(s)}{s}$.
+- **Valor inicial y final (cuando aplican):**
+  $$
+  \lim_{t\to 0^+} f(t) = \lim_{s\to \infty} sF(s),\qquad
+  \lim_{t\to \infty} f(t) = \lim_{s\to 0^+} sF(s),
+  $$
+  siempre que los límites existan y el sistema sea **estable** (todos los polos de $F$ con $\operatorname{Re}<0$ para el valor final).
+- **Corrimiento exponencial:** $\mathcal{L}\{e^{at}f(t)\} = F(s-a)$.
+- **Convolución:** $\mathcal{L}\{(f*g)(t)\} = F(s)G(s)$, con $(f*g)(t)=\int_0^t f(\tau)g(t-\tau)\,d\tau$.
+
 Una vez que resolvemos la ecuación fácil en el dominio $s$, simplemente usamos la Transformada Inversa de Laplace para "traducir" la solución de vuelta al dominio del tiempo ($t$).
 
 ## 2. Definí qué es un punto de equilibrio en un sistema de EDOs y cómo se determina.
@@ -165,9 +185,22 @@ La pregunta fundamental es: ¿Existen "caminos" o "direcciones" especiales en es
     *   **Si $\alpha < 0$:** El término $e^{\alpha t}$ decae. Las soluciones se mueven hacia el origen en **espirales hacia adentro**. Comportamiento **estable (foco estable)**.
     *   **Si $\alpha = 0$:** El término $e^{\alpha t}$ es 1. Las soluciones **orbitan perpetuamente** alrededor del origen en elipses, sin acercarse ni alejarse. Comportamiento **marginalmente estable (centro)**.
 
+> **Nota (sistemas no lineales):** si el sistema original es no lineal y la linealización tiene **parte real cero** (autovalores puramente imaginarios), la clasificación es **inconclusa**. Se requiere un análisis adicional (Lyapunov, términos de orden superior, etc.).
+
+
 *   **La Parte Imaginaria ($\beta$):** Determina la **velocidad de oscilación**. Un valor más grande de $\beta$ significa que las espirales u órbitas son más "rápidas" o "apretadas".
 
+**Forma real de las soluciones con autovalores complejos.**  
+Si $\lambda=\alpha\pm i\beta$ y el autovector asociado es $\mathbf{v}=\mathbf{p}\pm i\mathbf{q}$, entonces una base real de soluciones es
+$$
+\mathbf{x}(t)=e^{\alpha t}\big[c_1\big(\mathbf{p}\cos\beta t-\mathbf{q}\sin\beta t\big)
++ c_2\big(\mathbf{p}\sin\beta t+\mathbf{q}\cos\beta t\big)\big].
+$$
+
 ---
+
+**Autovalores repetidos y casos no diagonalizables (Jordan).**  
+Si $A$ tiene un autovalor repetido y no es diagonalizable, aparecen términos del tipo $t\,e^{\lambda t}\mathbf{v}$, $t^2 e^{\lambda t}\mathbf{v}$ en la solución (según la longitud de la cadena de Jordan). Esto afecta transitorios y estabilidad aparente, por lo que conviene verificar la **completitud** de autovectores.
 
 ### **3. La Solución General: Combinando las Autopistas**
 
@@ -188,6 +221,9 @@ El **Principio de Superposición** nos dice que la solución general del sistema
 En esencia, al encontrar los autovalores y autovectores, estás "descomponiendo" un sistema complejo en sus movimientos más fundamentales y predecibles.
 
 ## 4. Compará las soluciones de un sistema lineal homogéneo con uno no homogéneo.
+
+> **Nota (estabilidad en sistemas no homogéneos):** si $\max\operatorname{Re}(\lambda_i)>0$, la parte homogénea domina y la respuesta **diverge** aunque la entrada $\mathbf{f}(t)$ sea acotada. La estabilidad viene determinada por los autovalores de $A$.
+
 
 ### Diferencia entre Sistemas Homogéneos y No Homogéneos
 
@@ -320,7 +356,7 @@ El proceso es el siguiente:
     
     % --- FASE 1 ---
     \node (phase1) [phase, below=0.8cm of start] {Fase 1: Transformación \\ (Dominio $t \to s$)};
-    \node (B) [decision, below=0.5cm of phase1] {Aplicar Transformada de Laplace a cada ecuación};
+    \node (B) [process, below=0.5cm of phase1] {Aplicar Transformada de Laplace a cada ecuación};
     \node (C) [process, below=0.5cm of B] {Sustituir $\mathcal{L}\{y'\}$, $\mathcal{L}\{y''\}$, etc. por equivalentes algebraicos};
     \node (D) [process, below=0.5cm of C] {Sustituir condiciones iniciales $y(0)$, $y'(0)$...};
     \node (E) [process, below=0.5cm of D] {Transformar función de forzamiento $f(t)$, si existe};
@@ -383,10 +419,10 @@ El proceso es el siguiente:
 ]
     % --- FASE 2 ---
     \node (phase2) [phase] {Fase 2: Resolución Algebraica \\ (Dominio $s$)};
-    \node (F) [decision, below=0.5cm of phase2] {Reordenar las ecuaciones};
+    \node (F) [process, below=0.5cm of phase2] {Reordenar las ecuaciones};
     \node (G) [process, below=0.5cm of F] {Agrupar términos con $X(s)$, $Y(s)$... a la izquierda};
     \node (H) [process, below=0.5cm of G] {Pasar constantes y $F(s)$ a la derecha};
-    \node (I) [decision, below=0.5cm of H] {Resolver sistema algebraico para $X(s)$, $Y(s)$...};
+    \node (I) [process, below=0.5cm of H] {Resolver sistema algebraico para $X(s)$, $Y(s)$...};
     \node (J) [process, below=0.5cm of I] {Usar Regla de Cramer};
     \node (K) [process, below=0.5cm of J] {Obtener expresiones para $X(s)$ y $Y(s)$};
     
@@ -395,7 +431,7 @@ El proceso es el siguiente:
     \draw [arrow] (F) -- (G);
     \draw [arrow] (G) -- (H);
     \draw [arrow] (H) -- (I);
-    \draw [arrow] (I) -- node[midway, right, font=\tiny] {Recomendado} (J);
+    \draw [arrow] (I) -- node[midway, right, font=\tiny] {Ejemplo didáctico (2×2)} (J);
     \draw [arrow] (J) -- (K);
 \end{tikzpicture}
 }
@@ -460,7 +496,7 @@ El proceso es el siguiente:
 ]
     % --- FASE 3 ---
     \node (phase3) [phase] {Fase 3: Antitransformación \\ (Dominio $s \to t$)};
-    \node (L) [decision, below=0.5cm of phase3] {Calcular Transformada Inversa};
+    \node (L) [process, below=0.5cm of phase3] {Calcular Transformada Inversa};
     \node (M) [process, below=0.5cm of L] {Aplicar Fracciones Parciales, Completar Cuadrado, Teoremas...};
     \node (N) [process, below=0.5cm of M] {Obtener soluciones $x(t)$, $y(t)$...};
     
