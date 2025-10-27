@@ -308,6 +308,7 @@ El columpio está quieto, y tú empiezas a empujarlo rítmicamente (esta es la *
 > **Respuesta:** Porque $\mathbf{x}_h(t)$ es la única parte de la solución que tiene constantes arbitrarias ($c_1, c_2, \dots$), las cuales son necesarias para satisfacer la condición inicial.
 
 El proceso es el siguiente:
+
 1.  Encontramos una **solución particular $\mathbf{x}_p(t)$** que funcione. Esta solución no tiene constantes libres y está completamente determinada por la fuerza externa $\mathbf{f}(t)$.
 2.  Al sumarle la **solución homogénea $\mathbf{x}_h(t)$**, le agregamos "flexibilidad" a la solución total.
 3.  Usamos esa flexibilidad (ajustando las constantes $c_i$ de $\mathbf{x}_h(t)$) para cumplir con la **condición inicial $\mathbf{x}(0)$**.
@@ -560,7 +561,9 @@ $$ \begin{cases} (s-1)X(s) - 2Y(s) = 1 \\ -4X(s) + (s-3)Y(s) = 0 \end{cases} $$
 
 #### **Paso 3: Resolver el Sistema Algebraico para $X(s)$ y $Y(s)$**
 
+
 Usaremos la **Regla de Cramer**.
+
 1.  **Determinante del sistema ($\Delta$):**
     $$ \Delta = \begin{vmatrix} s-1 & -2 \\ -4 & s-3 \end{vmatrix} = (s-1)(s-3) - 8 = s^2-4s+3-8 = s^2-4s-5 = (s-5)(s+1) $$
 2.  **Determinante para $X(s)$ ($\Delta_X$):**
