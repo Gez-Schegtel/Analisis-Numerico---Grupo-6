@@ -54,7 +54,7 @@ header-includes:
 \centering
 
 % Logo o imagen superior
-\includegraphics[width=0.9\textwidth]{./logo_utn.png}
+\includegraphics[width=0.9\textwidth]{./logo_utn-removebg.png}
 
 \vspace{2cm}
 
