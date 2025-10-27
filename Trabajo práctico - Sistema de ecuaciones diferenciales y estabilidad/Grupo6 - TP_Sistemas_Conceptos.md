@@ -561,7 +561,6 @@ $$ \begin{cases} (s-1)X(s) - 2Y(s) = 1 \\ -4X(s) + (s-3)Y(s) = 0 \end{cases} $$
 
 #### **Paso 3: Resolver el Sistema Algebraico para $X(s)$ y $Y(s)$**
 
-
 Usaremos la **Regla de Cramer**.
 
 1.  **Determinante del sistema ($\Delta$):**
