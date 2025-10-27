@@ -1,12 +1,7 @@
 ---
-title: "Análisis Numérico: Sistemas de Ecuaciones Diferenciales y Estabilidad"
-author:
-  - Luis Ariel Quiroz
-  - Agustín Juan Luis Arduña Zago
-  - Rodrigo Román Franco 
-  - Axel Daniel Barabás
-  - Juan Ignacio Velazco Gez Schegtel
-date: \today
+title: ""
+author: []
+date: ""
 geometry: margin=1.6in
 colorlinks: true
 header-includes:
@@ -55,6 +50,36 @@ header-includes:
     }
 ---
 
+\begin{titlepage}
+\centering
+
+% Logo o imagen superior
+\includegraphics[width=0.9\textwidth]{./logo_utn.png}
+
+\vspace{2cm}
+
+% Título
+{\Huge\bfseries Análisis Numérico: Sistemas de Ecuaciones Diferenciales y Estabilidad\par}
+
+\vspace{1.5cm}
+
+% Autores
+{\Large
+Luis Ariel Quiroz\\
+Agustín Juan Luis Arduña Zago\\
+Rodrigo Román Franco\\
+Axel Daniel Barabás\\
+Juan Ignacio Velazco Gez Schegtel\par}
+
+\vfill
+
+% Fecha al pie
+{\large \today\par}
+
+\end{titlepage}
+
+\newpage
+
 # Etapa 1: Investigación del marco conceptual
 
 ## 1. Explicá con tus palabras la función principal de la Transformada de Laplace en el análisis de sistemas dinámicos.
@@ -87,7 +112,7 @@ De repente, esa ecuación diferencial complicada se transforma en una ecuación 
 
 ### 3. La Solución y el Regreso
 
-#### Fichas clave de la Transformada de Laplace
+#### Resumen de propiedades importantes de la Transformada de Laplace:
 
 - **Condiciones de existencia:** si $f$ es continua a trozos y de **orden exponencial**, entonces $\mathcal{L}\{f\}(s)$ existe para $\operatorname{Re}(s) > \sigma_0$.
 - **Derivadas (con condiciones iniciales):**
@@ -256,8 +281,6 @@ El columpio está quieto, y tú empiezas a empujarlo rítmicamente (esta es la *
 
 ### Comparación Detallada de las Soluciones
 
-Aquí está la comparación en un formato de lista:
-
 #### 1. Sistema Homogéneo ($\mathbf{x}' = A\mathbf{x}$)
 *   **Estructura de la Solución:**
     $$\mathbf{x}(t) = \mathbf{x}_h(t)$$
@@ -423,16 +446,14 @@ El proceso es el siguiente:
     \node (G) [process, below=0.5cm of F] {Agrupar términos con $X(s)$, $Y(s)$... a la izquierda};
     \node (H) [process, below=0.5cm of G] {Pasar constantes y $F(s)$ a la derecha};
     \node (I) [process, below=0.5cm of H] {Resolver sistema algebraico para $X(s)$, $Y(s)$...};
-    \node (J) [process, below=0.5cm of I] {Usar Regla de Cramer};
-    \node (K) [process, below=0.5cm of J] {Obtener expresiones para $X(s)$ y $Y(s)$};
+    \node (J) [process, below=0.5cm of I] {Obtener expresiones para $X(s)$ y $Y(s)$};
     
     % --- FLECHAS ---
     \draw [arrow] (phase2) -- (F);
     \draw [arrow] (F) -- (G);
     \draw [arrow] (G) -- (H);
     \draw [arrow] (H) -- (I);
-    \draw [arrow] (I) -- node[midway, right, font=\tiny] {Ejemplo didáctico (2×2)} (J);
-    \draw [arrow] (J) -- (K);
+    \draw [arrow] (I) -- node[midway, right, font=\tiny] {Por Cramer, sustitución, etc.} (J);
 \end{tikzpicture}
 }
 \end{center}
@@ -618,6 +639,26 @@ El determinante del sistema, $\Delta = (s-5)(s+1)$, es el mismo que en el caso h
 La solución de un sistema no homogéneo es la superposición (suma) de la respuesta debida solo a las condiciones iniciales (lo que calculamos en el caso homogéneo) y la respuesta debida solo a la fuerza externa.
 
 El método de Laplace es poderoso porque maneja esta superposición de forma automática. No necesitas calcular las dos partes por separado y luego ver cómo encajan; la transformada lo hace todo en un solo paso, garantizando que el resultado final cumpla tanto con la ecuación diferencial como con las condiciones iniciales.
+
+### **Una Conexión Clave: Polos de Laplace y Autovalores**
+
+Es fundamental destacar la conexión directa que existe entre los dos métodos de análisis presentados: los **polos** de la solución en el dominio de Laplace son, de hecho, los **autovalores** de la matriz del sistema.
+
+Esta equivalencia surge porque el denominador que aparece al resolver el sistema mediante Laplace, $\det(sI - A)$, es precisamente el polinomio característico que se utiliza para encontrar los autovalores, $\det(A - \lambda I) = 0$.
+
+Por ejemplo, en el sistema homogéneo que resolvimos, el denominador de $X(s)$ fue $(s-5)(s+1)$, dándonos los polos $s=5$ y $s=-1$. Estos son exactamente los autovalores de la matriz $A = \begin{pmatrix} 1 & 2 \\ 4 & 3 \end{pmatrix}$.
+
+Por lo tanto, analizar la estabilidad a través de los autovalores en el dominio del tiempo es conceptualmente idéntico a analizar la ubicación de los polos en el dominio de Laplace.
+
+### **Ampliando el Análisis: La Función de Transferencia**
+
+La relación entre la entrada y la salida de un sistema se formaliza con el concepto de **Función de Transferencia**, denotada como $G(s)$. Se define como el cociente entre la Transformada de Laplace de la **salida** y la Transformada de Laplace de la **entrada**, asumiendo que todas las **condiciones iniciales son nulas**.
+
+$$ G(s) = \frac{\text{Salida}(s)}{\text{Entrada}(s)} \bigg|_{\text{condiciones iniciales}=0} $$
+
+La función de transferencia es un modelo matemático del sistema en sí mismo, independiente de la entrada que se le aplique. Su importancia radica en que **los polos de $G(s)$ son los autovalores de la matriz del sistema**, y por lo tanto, determinan completamente su estabilidad.
+
+Si en nuestro ejemplo no homogéneo consideramos la fuerza externa "1" como una entrada $u(t)=1$ (cuya transformada es $U(s)=1/s$) y a $x(t)$ como la salida, la función de transferencia $G(s) = X(s)/U(s)$ tendría en su denominador el polinomio $s^2-4s-5$, revelando una vez más los modos inestables ($s=5$) y estables ($s=-1$) del sistema.
 
 ## 6. Diseñá un esquema visual que clasifique los tipos de puntos de equilibrio y la estabilidad asociada.
 
