@@ -1,0 +1,10 @@
+# --- Requirements para el Trabajo Práctico de Sistemas de Ecuaciones Diferenciales ---
+#
+# Use este archivo para instalar todas las dependencias necesarias con pip:
+# pip install -r requirements.txt
+
+numpy
+scipy
+sympy
+matplotlib
+jupyter
