@@ -17,9 +17,9 @@
 """
 ## Etapa 3: Actividades de aplicación
 
-### 1) Resolución simbólica con SymPy
+### Resolución simbólica con SymPy
 
-**Con el siguiente sistema:**
+**1) Con el siguiente sistema:**
 
 $$ x'(t) = 2x(t) + y(t) $$
 $$ y'(t) = -x(t) + y(t) $$
@@ -32,7 +32,7 @@ $$ y'(t) = -x(t) + y(t) $$
 ### a) Calcular los autovalores y autovectores de la matriz asociada.
 """
 
-# %% python
+# %%
 import sympy as sp
 
 # Activamos la impresión bonita (pretty printing) para una mejor visualización
@@ -61,7 +61,7 @@ display(autovectores)
 ### b) Clasificar el punto crítico (0,0).
 """
 
-# %% python
+# %%
 # La clasificación se basa en la naturaleza de los autovalores.
 # Extraemos el primer autovalor para analizarlo.
 # Como son complejos conjugados, el análisis de uno es suficiente.
@@ -103,7 +103,7 @@ else:
 ### c) Graficar el campo vectorial.
 """
 
-# %% python
+# %%
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -141,7 +141,7 @@ plt.show()
 ### d) Representar algunas soluciones para diferentes condiciones iniciales.
 """
 
-# %% python
+# %%
 from scipy.integrate import odeint
 
 
@@ -189,9 +189,7 @@ plt.show()
 
 # %% [markdown]
 """
-### 2) Análisis de estabilidad paramétrica
-
-Dado el siguiente sistema de ecuaciones, donde la matriz `A` depende de un parámetro `k`:
+**2) Dado el siguiente sistema de ecuaciones**
 
 $$
 \begin{pmatrix} x_1'(t) \\ x_2'(t) \end{pmatrix}
@@ -200,7 +198,7 @@ $$
 \begin{pmatrix} x_1(t) \\ x_2(t) \end{pmatrix}
 $$
 
-Se pide desarrollar el código necesario para analizar la estabilidad para los diferentes valores de `k`.
+**Desarrolle el código necesario para analizar la estabilidad para los siguientes valores de k.**
 """
 
 # %% [markdown]
@@ -416,9 +414,7 @@ Los autovalores son reales, distintos y positivos. El punto crítico (0,0) es un
 
 # %% [markdown]
 """
-### 3) Problema de aplicación: Control de Estabilidad de un Dron
-
-Utilice las herramientas matemáticas y de software estudiados para la resolución del siguiente problema.
+### 3) Problema de aplicación
 """
 
 # %% [markdown]
@@ -449,7 +445,7 @@ Consideramos que el eje de dirección está inicialmente en reposo en la direcci
 
 *   **y(t):** Representa la **dirección angular real** o la orientación del vehículo en un instante de tiempo `t`. Es la variable de salida del sistema, lo que el vehículo realmente hace.
 *   **g(t) = at:** Representa la **dirección angular deseada** o la trayectoria de referencia que se quiere que el vehículo siga. Al ser una función lineal del tiempo, indica que el objetivo es que el vehículo gire a una velocidad angular constante `a`.
-*   **e(t) = g(t) - y(t):** Representa el **error de seguimiento**. Es la diferencia instantánea entre la dirección deseada (`g(t)`) y la dirección real del vehículo (`y(t)`). El objetivo del sistema de control es minimizar este error, idealmente llevándolo a cero. *Nota: Esta definición de error es la que se presenta en la pregunta; el signo puede variar según la convención.*
+*   **e(t) = g(t) - y(t):** Representa el **error de seguimiento**. Es la diferencia instantánea entre la dirección deseada (`g(t)`) y la dirección real del vehículo (`y(t)`). El objetivo del sistema de control es minimizar este error, idealmente llevándolo a cero. *Nota: Esta definición de error es la que se presenta en la pregunta; el signo puede variar según la convención del problema.*
 *   **I:** Es el **momento de inercia** del eje de dirección. Es una constante física que mide la resistencia del eje a ser rotado. Un valor de `I` más alto significa que se necesita más torque para producir la misma aceleración angular.
 *   **k:** Es la **constante de ganancia proporcional** o "rigidez" del controlador. Es un parámetro de diseño que determina la intensidad del momento de torsión de corrección que se aplica en respuesta a un error detectado. Un `k` más alto implica una corrección más fuerte y rápida.
 """
@@ -478,21 +474,17 @@ En resumen, es un sistema automático que utiliza la retroalimentación del erro
 """
 **3. Escribir la ecuación diferencial que modela el sistema con sus condiciones iniciales.**
 
-Partimos de la ecuación dada por la segunda ley de Newton:
-$$ I y''(t) = -k e(t) $$
+Partimos de la ecuación dada por la segunda ley de Newton: `I y''(t) = -k e(t)`.
+El enunciado define el error como `e(t) = y(t) - g(t)`. Para modelar el comportamiento del error, necesitamos escribir la ecuación en términos de `e(t)`.
 
-Sabemos que el error es `e(t) = y(t) - g(t)`. Para modelar el comportamiento del error, necesitamos escribir la ecuación en términos de `e(t)`.
-
-Despejamos `y(t)` de la ecuación del error: `y(t) = e(t) + g(t)`.
+Despejamos `y(t)`: `y(t) = e(t) + g(t)`.
 Derivamos dos veces con respecto al tiempo:
 $$ y'(t) = e'(t) + g'(t) $$
 $$ y''(t) = e''(t) + g''(t) $$
 
-La trayectoria deseada es `g(t) = at`. Por lo tanto, sus derivadas son:
-$$ g'(t) = a $$
-$$ g''(t) = 0 $$
+La trayectoria deseada es `g(t) = at`. Por lo tanto, sus derivadas son: `g'(t) = a` y `g''(t) = 0`.
 
-Sustituyendo `y''(t) = e''(t)` en la ecuación de Newton, obtenemos la Ecuación Diferencial Ordinaria (EDO) para el error:
+Sustituyendo `y''(t) = e''(t)` en la ecuación de Newton, obtenemos la EDO para el error:
 $$ I e''(t) = -k e(t) $$
 Reordenando, nos queda una EDO de segundo orden, lineal y homogénea:
 $$ I e''(t) + k e(t) = 0 $$
@@ -534,7 +526,6 @@ sp.init_printing(use_unicode=True)
 t, s = sp.symbols("t, s")
 I, k, a = sp.symbols("I, k, a", real=True, positive=True)
 e = sp.Function("e")(t)
-E = sp.Function("E")(s)  # E(s) es la transformada de e(t)
 
 # Escribimos la EDO
 edo = I * e.diff(t, 2) + k * e
@@ -545,17 +536,15 @@ display(sp.Eq(edo, 0))
 e0 = 0
 e_dot0 = -a
 
-# Aplicamos la transformada de Laplace
+# Aplicamos la regla de la transformada para la segunda derivada:
 # L{f''(t)} = s^2*F(s) - s*f(0) - f'(0)
-# L{f(t)} = F(s)
-transformada_edo = sp.laplace_transform(edo, t, s, noconds=True)
-E_s = sp.Symbol("E(s)")  # Usamos un símbolo para la transformada
+E_s = sp.Symbol("E(s)")  # Símbolo para la transformada L{e(t)}
 
-# Sustituimos la transformada genérica por la expresión con condiciones iniciales
-L_e_t = E_s
+# Transformamos término a término
 L_e_tt = s**2 * E_s - s * e0 - e_dot0
+L_e_t = E_s
 
-# Reemplazamos en la ecuación transformada
+# Construimos la ecuación en el dominio de Laplace
 eq_laplace = I * L_e_tt + k * L_e_t
 print("\nLa ecuación en el dominio de Laplace es:")
 display(sp.Eq(eq_laplace, 0))
@@ -584,7 +573,7 @@ display(sp.Eq(E_s, E_s_expr))
 e_t_sol = sp.inverse_laplace_transform(E_s_expr, s, t)
 
 print("La solución para el error e(t) es:")
-display(sp.Eq(e, e_t_sol))
+display(sp.Eq(sp.Symbol("e(t)"), e_t_sol))
 
 
 # %% [markdown]
@@ -613,7 +602,7 @@ El comportamiento del sistema depende de las raíces de la ecuación caracterís
     *   Sea `k = -p` donde `p > 0`. La ecuación característica es `Iλ² - p = 0`.
     *   Las raíces son reales y de signos opuestos: `λ = ±√(p/I)`.
     *   La solución es de la forma `e(t) = C₁e^(√(p/I)t) + C₂e^(-√(p/I)t)`.
-    *   **Comportamiento:** La presencia de la exponencial con exponente positivo (`e^(√(p/I)t)`) hace que el error crezca sin límite para cualquier condición inicial no nula. El sistema es **inestable**.
+    *   **Comportamiento:** La presencia de la exponencial con exponente positivo (`e^(√(p/I)t)`) hace que el error crezca sin límite. El sistema es **inestable**.
 """
 
 # %% [markdown]
@@ -628,7 +617,7 @@ Los autovalores del sistema son las raíces de la ecuación característica.
     *   Un sistema es **inestable** si la parte real de *al menos un* autovalor es positiva. Esto no se cumple.
     *   Un sistema es **estable (o marginalmente estable)** si la parte real de todos sus autovalores es menor o igual a cero, y los que tienen parte real cero son simples (no repetidos). Esto sí se cumple.
 
-*   **Justificación:** El sistema, para `k > 0`, es **estable (marginalmente estable)**, pero no asintóticamente estable. Esto se debe a que sus autovalores se encuentran sobre el eje imaginario, lo que resulta en una respuesta oscilatoria que no se atenúa con el tiempo. Para `k ≤ 0`, el sistema es **inestable**.
+*   **Justificación:** El sistema, para `k > 0`, es **estable (marginalmente estable)**, pero no asintóticamente estable. Sus autovalores se encuentran sobre el eje imaginario, lo que resulta en una respuesta oscilatoria que no se atenúa. Para `k ≤ 0`, el sistema es **inestable**.
 """
 
 # %% [markdown]
@@ -651,7 +640,7 @@ $$
 
 La clasificación del punto de equilibrio (0,0) depende de los autovalores de la matriz `A`, que son los mismos que ya calculamos.
 
-*   **Caso k > 0:** Los autovalores son imaginarios puros (`±jω`). Esta es la definición de un **CENTRO**. En el plano de fase (un gráfico de `e'(t)` vs `e(t)`), las trayectorias son órbitas cerradas (elipses) alrededor del origen.
+*   **Caso k > 0:** Los autovalores son imaginarios puros (`±jω`). Esta es la definición de un **CENTRO**. En el plano de fase, las trayectorias son órbitas cerradas.
 
 *   **Caso k < 0:** Los autovalores son reales y de signos opuestos (`±α`). Esta es la definición de un **PUNTO DE SILLA**. El origen es un punto de equilibrio inestable.
 
@@ -667,12 +656,6 @@ La clasificación del punto de equilibrio (0,0) depende de los autovalores de la
 """
 **11. Resolver el problema con SymPy y SciPy.solve_ivp.**
 
-Para la resolución numérica, primero definimos el sistema de EDOs de primer orden:
-Sea `x₁ = e(t)` y `x₂ = e'(t)`.
-El sistema es:
-$$ x₁' = x₂ $$
-$$ x₂' = -\frac{k}{I}x₁ $$
-
 Usaremos la solución analítica que ya encontramos con SymPy y la compararemos con la solución numérica de `scipy.integrate.solve_ivp`.
 """
 
@@ -687,16 +670,12 @@ I_val = 2.0  # Momento de inercia (kg*m^2)
 k_val = 8.0  # Ganancia del controlador (N*m/rad)
 a_val = 0.5  # Velocidad angular deseada (rad/s)
 
+
 # --- Solución Numérica con SciPy ---
-
-
-# Definimos la función del sistema de EDOs para el solver
-# X es el vector de estado [x₁, x₂] = [e, e']
+# Definimos el sistema de EDOs de primer orden: x₁' = x₂, x₂' = -(k/I)x₁
 def sistema_piloto(t, X, I, k):
-    e, e_dot = X
-    d_e_dt = e_dot
-    d_e_dot_dt = -(k / I) * e
-    return [d_e_dt, d_e_dot_dt]
+    x1, x2 = X
+    return [x2, -(k / I) * x1]
 
 
 # Condiciones iniciales: [e(0), e'(0)]
@@ -717,9 +696,7 @@ sol_numerica = solve_ivp(
 )
 
 # --- Solución Analítica con SymPy ---
-# Reutilizamos la solución simbólica e_t_sol que encontramos antes
-# e_t_sol = a*sqrt(I)*sin(t*sqrt(k/I))/sqrt(k) -> con signo invertido por la definición del error
-# e_t_sol = -a * sqrt(I/k) * sin(t * sqrt(k/I))
+# Reutilizamos la solución simbólica e_t_sol
 t_sym, I_sym, k_sym, a_sym = sp.symbols("t I k a", real=True, positive=True)
 e_t_analitica_expr = (
     -a_sym * sp.sqrt(I_sym / k_sym) * sp.sin(t_sym * sp.sqrt(k_sym / I_sym))
@@ -836,9 +813,9 @@ plt.show()
 
 Las oscilaciones aparecen por la naturaleza fundamental del sistema de control implementado.
 
-*   **Análogía Física:** El sistema `I e''(t) + k e(t) = 0` es matemáticamente idéntico a un **sistema masa-resorte sin amortiguamiento**. La inercia `I` actúa como la masa y la ganancia del controlador `k` actúa como la constante del resorte. Cuando se perturba el sistema (en este caso, por el objetivo de seguir una rampa, lo que genera una `e'(0)` no nula), el "resorte" del controlador aplica una fuerza restauradora. Sin embargo, debido a la inercia, el sistema sobrepasa el punto de equilibrio (error cero) y la fuerza restauradora actúa en la dirección opuesta, generando un ciclo perpetuo de oscilación.
+*   **Análogía Física:** El sistema `I e''(t) + k e(t) = 0` es matemáticamente idéntico a un **sistema masa-resorte sin amortiguamiento**. La inercia `I` actúa como la masa y la ganancia `k` como la constante del resorte. Cuando se perturba el sistema (por la condición inicial `e'(0) = -a`), el "resorte" del controlador aplica una fuerza restauradora. Debido a la inercia, el sistema sobrepasa el punto de equilibrio (error cero) y la fuerza restauradora actúa en la dirección opuesta, generando un ciclo perpetuo de oscilación.
 
-*   **Análisis Matemático:** La razón matemática, como se vio en el análisis de estabilidad, es que los autovalores (o las raíces de la ecuación característica) del sistema son **puramente imaginarios** (`λ = ±j√(k/I)`). Un sistema cuyos autovalores son imaginarios puros siempre tendrá una solución en forma de senos y cosenos, que describen una oscilación no amortiguada. No hay un término de parte real negativa en los autovalores que haga que estas oscilaciones decaigan con el tiempo.
+*   **Análisis Matemático:** La razón matemática es que los autovalores del sistema son **puramente imaginarios** (`λ = ±j√(k/I)`). Un sistema cuyos autovalores son imaginarios puros siempre tendrá una solución en forma de senos y cosenos, que describen una oscilación no amortiguada. No hay un término de parte real negativa en los autovalores que haga que estas oscilaciones decaigan.
 """
 
 # %% [markdown]
@@ -846,23 +823,19 @@ Las oscilaciones aparecen por la naturaleza fundamental del sistema de control i
 **15. ¿Qué sucede cuando se aumenta k? ¿Qué limitaciones presenta el modelo? ¿Cómo podría mejorarse para lograr mayor estabilidad?**
 
 *   **¿Qué sucede cuando se aumenta k?**
-    Al aumentar `k` (la "rigidez" del controlador), se observan dos efectos principales, visibles en los gráficos del punto 12:
-    1.  **La frecuencia de la oscilación aumenta.** El término de la frecuencia es `ω = √(k/I)`, por lo que a mayor `k`, mayor `ω`. El sistema reacciona más rápido y oscila más veces en el mismo período de tiempo.
-    2.  **La amplitud de la oscilación disminuye.** El término de la amplitud es `A = a√(I/k)`, por lo que a mayor `k`, menor `A`. Un controlador más "fuerte" reduce la magnitud máxima del error.
+    Al aumentar `k` (la "rigidez" del controlador), se observan dos efectos:
+    1.  **La frecuencia de la oscilación aumenta:** El término de la frecuencia es `ω = √(k/I)`, por lo que a mayor `k`, mayor `ω`. El sistema reacciona más rápido.
+    2.  **La amplitud de la oscilación disminuye:** El término de la amplitud es `A = a√(I/k)`, por lo que a mayor `k`, menor `A`. Un controlador más "fuerte" reduce la magnitud máxima del error.
 
 *   **¿Qué limitaciones presenta el modelo?**
-    La principal limitación es que es un **modelo idealizado sin amortiguamiento**. En el mundo real, siempre existe alguna forma de fricción o resistencia (amortiguamiento viscoso, resistencia del aire, etc.) que disiparía energía. En este modelo, al no haber un término de amortiguamiento, la energía introducida en el sistema nunca se disipa, lo que resulta en oscilaciones perpetuas. Esto significa que el sistema es solo **marginalmente estable**. En la práctica, el vehículo nunca se estabilizaría por completo, sino que siempre estaría "temblando" u oscilando alrededor de la trayectoria deseada.
+    La principal limitación es que es un **modelo idealizado sin amortiguamiento**. En el mundo real, siempre existe fricción o resistencia. En este modelo, al no haber un término de amortiguamiento, la energía del sistema nunca se disipa, lo que resulta en oscilaciones perpetuas (sistema **marginalmente estable**). En la práctica, el vehículo nunca se estabilizaría por completo.
 
 *   **¿Cómo podría mejorarse para lograr mayor estabilidad?**
-    Para lograr una **estabilidad asintótica** (es decir, que el error no solo no crezca, sino que tienda a cero con el tiempo), es necesario introducir un **término de amortiguamiento** en la ecuación. En el contexto de la ingeniería de control, esto se logra mejorando el controlador.
-
-    La solución es implementar un **controlador Proporcional-Derivativo (PD)**. En lugar de que el momento de torsión sea solo proporcional al error, se le añade un término que es proporcional a la *derivada* del error:
+    Para lograr una **estabilidad asintótica** (que el error tienda a cero), es necesario introducir un **término de amortiguamiento**. En control, esto se logra con un **controlador Proporcional-Derivativo (PD)**, añadiendo un término proporcional a la *derivada* del error:
     $$ \text{Momento de Torsión} = -k_p e(t) - k_d e'(t) $$
-    Donde `k_p` es la ganancia proporcional (nuestra `k` original) y `k_d` es la nueva ganancia derivativa. La derivada del error `e'(t)` actúa como un "freno" o amortiguador: si el error está cambiando muy rápido, este término se opone al movimiento, disipando la energía del sistema.
-
     La nueva EDO para el error sería:
     $$ I e''(t) + k_d e'(t) + k_p e(t) = 0 $$
-    Esta es la ecuación de un **oscilador armónico amortiguado**. Con `k_d > 0`, los autovalores del sistema tendrían una parte real negativa, garantizando que `e(t)` converja a cero, logrando así la estabilidad asintótica.
+    Esta es la ecuación de un **oscilador armónico amortiguado**. Con `k_d > 0` (el coeficiente de amortiguamiento), los autovalores tendrían una parte real negativa, garantizando que `e(t)` converja a cero.
 """
 
 # %% [markdown]
@@ -888,17 +861,11 @@ $$
 """
 **16. Encuentre Y(t).**
 
-Para encontrar `y(t)`, primero plantearemos y resolveremos la ecuación diferencial para el error `e(t) = y(t) - at`, ya que resulta en una EDO homogénea más sencilla de resolver.
+Para encontrar `y(t)`, resolvemos la ecuación diferencial para el error `e(t) = y(t) - at`, ya que resulta en una EDO homogénea. Como se derivó antes, `y''(t) = e''(t)`. Sustituyendo en la nueva ecuación:
 
-Como derivamos en el punto 3, si `y(t) = e(t) + at`, entonces `y'(t) = e'(t) + a` y `y''(t) = e''(t)`. Sustituyendo en la nueva ecuación:
+$$ I e''(t) = -k e(t) - μ (e'(t) + a - a) \implies I e''(t) + μ e'(t) + k e(t) = 0 $$
 
-$$ I e''(t) = -k e(t) - μ (e'(t) + a - a) $$
-$$ I e''(t) = -k e(t) - μ e'(t) $$
-
-Reordenando, obtenemos la EDO del **oscilador armónico amortiguado**:
-$$ I e''(t) + μ e'(t) + k e(t) = 0 $$
-
-Las condiciones iniciales para el error siguen siendo las mismas: `e(0) = 0` y `e'(0) = -a`. Ahora resolvemos este PVI usando SymPy.
+Las condiciones iniciales para el error siguen siendo `e(0) = 0` y `e'(0) = -a`. Resolvemos este PVI usando SymPy.
 """
 
 # %%
@@ -914,27 +881,13 @@ e = sp.Function("e")
 # Definimos la EDO homogénea para el error
 edo_amortiguada = sp.Eq(I * e(t).diff(t, 2) + mu * e(t).diff(t) + k * e(t), 0)
 
-# Resolvemos la EDO para encontrar la solución general
-sol_general_e = sp.dsolve(edo_amortiguada, e(t))
+# Resolvemos la EDO para e(t) con las condiciones iniciales
+sol_e_particular = sp.dsolve(
+    edo_amortiguada, e(t), ics={e(0): 0, e(t).diff(t).subs(t, 0): -a}
+)
+e_t_particular = sol_e_particular.rhs
 
-# Aplicamos las condiciones iniciales e(0)=0 y e'(0)=-a para encontrar las constantes
-# Extraemos la parte derecha de la solución (la expresión de e(t))
-e_t_general = sol_general_e.rhs
-# Derivamos para obtener e'(t)
-e_dot_t_general = e_t_general.diff(t)
-
-# Creamos un sistema de ecuaciones para las constantes C1 y C2
-constantes = sp.symbols("C1 C2")
-eq1 = sp.Eq(e_t_general.subs(t, 0), 0)
-eq2 = sp.Eq(e_dot_t_general.subs(t, 0), -a)
-
-# Resolvemos para C1 y C2
-sol_constantes = sp.solve([eq1, eq2], constantes)
-
-# Sustituimos las constantes de vuelta en la solución general para obtener e(t)
-e_t_particular = e_t_general.subs(sol_constantes)
-
-# Finalmente, encontramos Y(t) (que es y(t)) usando la relación y(t) = e(t) + at
+# Encontramos Y(t) usando la relación y(t) = e(t) + at
 y_t_solucion = e_t_particular + a * t
 
 print("La solución para Y(t) es:")
@@ -947,9 +900,7 @@ display(sp.Eq(sp.Symbol("Y(t)"), y_t_solucion))
 
 *(Nota: Existe una posible errata en la definición del error `E(t)` en el enunciado. Se procederá utilizando la definición consistente a lo largo de todo el problema: `e(t) = y(t) - g(t) = y(t) - at`)*.
 
-La función del error `e(t)` fue calculada en el paso anterior como parte de la solución para `Y(t)`.
-
-La solución para `e(t)` es:
+La función del error `e(t)` fue calculada en el paso anterior.
 """
 
 # %%
@@ -963,16 +914,14 @@ display(sp.Eq(sp.Symbol("e(t)"), e_t_particular))
 La solución para `e(t)` tiene la forma de una sinusoide multiplicada por una exponencial decreciente: `e(t) = A * exp(-αt) * sin(ω_d*t + φ)`.
 
 1.  **Término Exponencial (`exp(-μt / 2I)`):** Este es el término clave para la estabilización.
-    *   Para que el error se estabilice (es decir, `e(t) → 0` cuando `t → ∞`), el exponente `-μ / (2I)` debe ser negativo.
-    *   Como `I > 0` por ser un momento de inercia, la condición se reduce a **`μ > 0`**.
-    *   El parámetro `μ` (mu) es el **coeficiente de amortiguamiento**. Su presencia (`μ > 0`) garantiza que el sistema sea **asintóticamente estable**. Un valor de `μ` más grande hará que las oscilaciones decaigan más rápidamente, estabilizando el error en menos tiempo.
+    *   Para que el error se estabilice (`e(t) → 0` cuando `t → ∞`), el exponente `-μ / (2I)` debe ser negativo.
+    *   Como `I > 0`, la condición se reduce a **`μ > 0`**.
+    *   El parámetro `μ` (mu) es el **coeficiente de amortiguamiento**. Su presencia (`μ > 0`) garantiza que el sistema sea **asintóticamente estable**. Un `μ` más grande hace que las oscilaciones decaigan más rápidamente.
 
-2.  **Término Sinusoidal (`sin(...)`):** Este término describe las oscilaciones del error.
-    *   La frecuencia de estas oscilaciones amortiguadas depende de `I`, `k` y `μ`.
-    *   La condición de **amortiguamiento ligero** (`μ < 2√(Ik)`) asegura que el término dentro de la raíz cuadrada en la solución (`4Ik - μ²`) sea positivo, lo que significa que el sistema todavía oscila mientras converge a cero.
-    *   Si `μ` fuera más grande (caso sobreamortiguado o críticamente amortiguado), las oscilaciones desaparecerían por completo y el error convergería a cero de forma directa.
+2.  **Término Sinusoidal (`sin(...)`):** Este término describe las oscilaciones.
+    *   La condición de **amortiguamiento ligero** (`μ < 2√(Ik)`) asegura que el término dentro de la raíz cuadrada en la solución (`4Ik - μ²`) sea positivo, lo que significa que el sistema todavía oscila mientras converge a cero (caso subamortiguado).
 
-**En conclusión:** La introducción del parámetro de amortiguamiento `μ > 0` es la mejora fundamental que cambia el sistema de ser meramente estable (con oscilaciones perpetuas) a ser **asintóticamente estable**, garantizando que el error del piloto automático eventualmente se anule. La magnitud de `μ` controla la rapidez con la que se estabiliza dicho error.
+**En conclusión:** La introducción del parámetro de amortiguamiento `μ > 0` es la mejora fundamental que cambia el sistema de ser meramente estable a ser **asintóticamente estable**, garantizando que el error del piloto automático eventualmente se anule.
 """
 
 # %% [markdown]
@@ -984,17 +933,17 @@ La solución para `e(t)` tiene la forma de una sinusoide multiplicada por una ex
 """
 **18. Elabore conclusiones de los dos análisis.**
 
-A lo largo de este trabajo práctico, se ha realizado un análisis exhaustivo de sistemas de ecuaciones diferenciales para modelar y entender fenómenos dinámicos, culminando en el estudio de un problema de aplicación de un piloto automático. De los dos análisis realizados sobre este último problema (el modelo sin amortiguamiento y el modelo con amortiguamiento), se pueden extraer las siguientes conclusiones clave:
+A lo largo de este trabajo, se ha realizado un análisis de sistemas de EDOs para modelar y entender fenómenos dinámicos, culminando en el estudio de un piloto automático. De los dos análisis realizados sobre este problema (sin y con amortiguamiento), se extraen las siguientes conclusiones:
 
-1.  **La Importancia Fundamental de los Autovalores:** El comportamiento y la estabilidad de un sistema lineal están intrínsecamente ligados a los autovalores de su matriz característica. El primer análisis, sin amortiguamiento, resultó en autovalores puramente imaginarios. Esto se tradujo directamente en un comportamiento oscilatorio perpetuo (un **Centro**), clasificando al sistema como **marginalmente estable**. Si bien el error no crecía indefinidamente, tampoco se corregía, lo cual es inaceptable para un sistema de control eficaz.
+1.  **La Importancia de los Autovalores:** La estabilidad de un sistema lineal depende directamente de los autovalores de su matriz característica. El primer análisis (sin amortiguamiento) resultó en autovalores puramente imaginarios, lo que se tradujo en un comportamiento oscilatorio perpetuo (un **Centro**), clasificando al sistema como **marginalmente estable**. Si bien el error no crecía, tampoco se corregía, lo cual es inaceptable para un sistema de control.
 
-2.  **Limitaciones de los Modelos Idealizados:** El modelo inicial sin amortiguamiento (`Ie'' + ke = 0`) representa una idealización (análoga a un sistema masa-resorte sin fricción). Aunque útil para un primer análisis, su predicción de oscilaciones infinitas revela su principal limitación: la ausencia de disipación de energía. En la práctica, ningún sistema real carece por completo de fuerzas disipativas.
+2.  **Limitaciones de los Modelos Idealizados:** El modelo inicial (`Ie'' + ke = 0`) es una idealización sin disipación de energía. Su predicción de oscilaciones infinitas revela su principal limitación.
 
-3.  **El Rol Crucial del Amortiguamiento para la Estabilidad:** El segundo análisis introdujo un término de amortiguamiento (`μe'`), que representa una acción de control derivativa. Este cambio, aunque pequeño en la ecuación, fue transformador para el comportamiento del sistema. La nueva ecuación (`Ie'' + μe' + ke = 0`) es la de un oscilador amortiguado. La presencia del término `μ > 0` desplaza los autovalores del eje imaginario hacia el semiplano izquierdo del plano complejo, dotándolos de una parte real negativa.
+3.  **El Rol Crucial del Amortiguamiento:** El segundo análisis introdujo un término de amortiguamiento (`μe'`). Este cambio fue transformador. La nueva ecuación (`Ie'' + μe' + ke = 0`) es la de un oscilador amortiguado. La presencia de `μ > 0` desplaza los autovalores hacia el semiplano izquierdo del plano complejo, dotándolos de una parte real negativa.
 
-4.  **De Estabilidad Marginal a Estabilidad Asintótica:** El efecto del amortiguamiento es convertir un sistema meramente estable en uno **asintóticamente estable**. La solución para el error `e(t)` adquirió un factor exponencial decreciente (`exp(-αt)`) que fuerza a las oscilaciones a decaer con el tiempo, garantizando que el error converja a cero. Esto representa el comportamiento deseado de un servomecanismo: no solo reacciona al error, sino que lo elimina eficazmente.
+4.  **De Estabilidad Marginal a Asintótica:** El amortiguamiento convierte un sistema meramente estable en uno **asintóticamente estable**. La solución para `e(t)` adquiere un factor exponencial decreciente (`exp(-αt)`) que fuerza a las oscilaciones a decaer, garantizando que el error converja a cero. Esto representa el comportamiento deseado de un servomecanismo: no solo reacciona al error, sino que lo elimina eficazmente.
 
-5.  **Validación mediante Herramientas Computacionales:** El uso de Python, a través de librerías como SymPy, SciPy y Matplotlib, fue fundamental. SymPy permitió obtener soluciones analíticas precisas que confirmaron la teoría. SciPy y Matplotlib permitieron simular numéricamente y visualizar el comportamiento de los sistemas, haciendo tangibles conceptos abstractos como un "Centro" (órbitas cerradas en el plano de fase) versus un "Foco Estable" (trayectorias en espiral hacia el origen), y demostrando cómo la variación de parámetros como `k` y `μ` afecta la respuesta del sistema.
+5.  **Validación Computacional:** El uso de Python (SymPy, SciPy, Matplotlib) fue fundamental. SymPy permitió obtener soluciones analíticas precisas. SciPy y Matplotlib permitieron simular y visualizar el comportamiento de los sistemas, haciendo tangibles conceptos abstractos como un "Centro" versus un "Foco Estable", y demostrando cómo la variación de parámetros como `k` y `μ` afecta la respuesta.
 
-En síntesis, el trabajo demuestra que un diseño de control efectivo requiere no solo una fuerza correctiva (control proporcional, `k`), sino también un mecanismo para disipar la energía y evitar oscilaciones (control derivativo, `μ`). El análisis matemático a través de ecuaciones diferenciales y autovalores proporciona el marco teórico para predecir la estabilidad, mientras que las herramientas de software permiten validar estos análisis y visualizar el comportamiento dinámico de forma clara y efectiva.
+En síntesis, el trabajo demuestra que un diseño de control efectivo requiere no solo una fuerza correctiva (control proporcional, `k`), sino también un mecanismo para disipar energía y evitar oscilaciones (control derivativo, `μ`). El análisis matemático proporciona el marco teórico para predecir la estabilidad, mientras que el software permite validar y visualizar estos análisis.
 """
